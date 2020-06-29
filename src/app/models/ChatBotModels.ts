@@ -24,10 +24,10 @@ export interface IStep {
   update?: string;
 }
 
-export interface ISteps {
-  steps: IStep[];
-}
+// export interface ISteps {
+//   steps: IStep[];
+// }
 
-export interface StringArray {
-  [index: number]: string;
-}
+// export interface StringArray {
+//   [index: number]: string;
+// }

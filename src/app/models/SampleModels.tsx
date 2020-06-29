@@ -1,6 +1,6 @@
-import Review from "../../features/Review";
+import Review from "../../features/SampleSteps/Review";
 import React from "react";
-import { ISteps, IStep } from "./models";
+import { IStep } from "./ChatBotmodels";
 
 const SampleSteps = [
   {

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./styles.css";
 
-import SimpleForm from "../../features/SimpleForm";
+import SimpleForm from "../../features/SampleSteps/SimpleForm";
 import { Button, Icon, Grid } from "semantic-ui-react";
+import Chat from "../../features/Chat/Chat";
 
 const App = (props: any) => {
   let [showChat, setShowChat] = useState(false);
@@ -44,7 +45,7 @@ const App = (props: any) => {
         <Grid.Row verticalAlign="bottom">
           <Grid.Column>
             <div className="bot">
-              <div> {showChat ? <SimpleForm></SimpleForm> : null} </div>
+              <div> {showChat ? <Chat></Chat> : null} </div>
               <div>
                 {!showChat ? (
                   <Button size="massive" onClick={() => startChat()}>

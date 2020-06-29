@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ChatBot from "react-simple-chatbot";
-import { ReviewModel } from "../app/models/models";
-import models from "../app/models/SampleModels";
+import { ReviewModel } from "../../app/models/ChatBotmodels";
+import models from "../../app/models/SampleModels";
 
 class SimpleForm extends Component {
   state: ReviewModel = { age: "", gender: "", name: "" };
