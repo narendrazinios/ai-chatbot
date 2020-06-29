@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./styles.css";
 import { IStep } from "../../app/models/ChatBotModel";
 import SimpleForm from "../../features/SampleSteps/SimpleForm";
@@ -6,10 +6,13 @@ import { Button, Icon, Grid } from "semantic-ui-react";
 import Chat from "../../features/Chat/Chat";
 
 import agent from "../../app/api/agent";
-import { ChatData } from "../../app/stores/Data";
+import { ChatData, DemoSleepData } from "../../app/stores/Data";
 import Axios from "axios";
+import { IChatResponse } from "../models/ChatModels";
+import { ChatContext } from "../stores/ChatContext";
 
 const App = (props: any) => {
+  //const { message, setMessage } = useContext(ChatContext);
   let [showChat, setShowChat] = useState(false);
   let [steps, setSteps] = useState({});
 
@@ -79,8 +82,15 @@ const App = (props: any) => {
 export default App;
 
 const Steps = async () => {
-  var loginResponse = JSON.parse(ChatData.TempLoginData); //await agent.Chat.login(ChatData.LoginTokenId);
-  var chatResponse = JSON.parse(ChatData.ChatResponse); //await agent.Chat.login(ChatData.LoginTokenId);
+  var loginResponse = await agent.Chat.login(ChatData.LoginTokenId); //JSON.parse(ChatData.TempLoginData);
+  //var loginResponse = JSON.parse(await DemoSleepData()); //await agent.Chat.login(ChatData.LoginTokenId);
+  debugger;
+  var chatResponse = await agent.Chat.chat(
+    ChatPostData(loginResponse.text, loginResponse.token)
+  );
+
+  var currentResponse: IChatResponse = chatResponse;
+  debugger;
   var stepCount: number = 1;
   var steps: IStep[] = [
     { id: stepCount++, message: loginResponse.text, trigger: stepCount },
@@ -91,6 +101,11 @@ const Steps = async () => {
   ];
 
   return steps;
+};
+
+const ChatPostData = (message: string, token: string) => {
+  var chatPostData: IChatResponse = { text: message, token: token };
+  return chatPostData;
 };
 
 const LoadingSteps: IStep[] = [{ id: 1, message: "Loading...", end: true }];
