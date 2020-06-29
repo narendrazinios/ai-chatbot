@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import any from "prop-types";
 
 const Review = (props: any) => {
   const [state, setState] = useState({
-    name: { value: any },
-    gender: { value: any },
-    age: { value: any },
+    name: { value: "" },
+    gender: { value: "" },
+    age: { value: "" },
   });
 
   useEffect(() => {
