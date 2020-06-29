@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css";
-import { IStep } from "../../app/models/ChatBotModel";
+import { IStep } from "../models/ChatBotModel";
 import { Button, Icon, Grid } from "semantic-ui-react";
 import Chat from "../../features/Chat/Chat";
-import agent from "../../app/api/agent";
-import { ChatData } from "../../app/stores/Data";
+import agent from "../api/agent";
+import { ChatData } from "../stores/Data";
 import { IChatResponse } from "../models/ChatModels";
+
+const ChatPostData = (message: string, token: string) => {
+  var chatPostData: IChatResponse = { text: message, token: token };
+  return chatPostData;
+};
 
 const App = () => {
   //const { message, setMessage } = useContext(ChatContext);
   let [showChat, setShowChat] = useState(false);
-  let [steps, setSteps] = useState({});
+  let [steps, setSteps] = useState([{}]);
+  let [currentResponse, setCurrentResponse] = useState(
+    ChatPostData("demo", "demo")
+  );
 
   const startChat = () => {
     setShowChat(true);
@@ -25,17 +33,18 @@ const App = () => {
     });
   }, []);
 
-  let currentResponse: IChatResponse;
+  // let currentResponse: IChatResponse;
   let isExit = false;
   var stepCount: number = 1;
 
   const Steps = async () => {
+    debugger;
     var loginResponse = await agent.Chat.login(ChatData.LoginTokenId); //JSON.parse(ChatData.TempLoginData);
     //var loginResponse = JSON.parse(await DemoSleepData()); //await agent.Chat.login(ChatData.LoginTokenId);
     var chatResponse = (currentResponse = await agent.Chat.chat(
       ChatPostData(loginResponse.text, loginResponse.token)
     ));
-
+    debugger;
     var steps: IStep[] = [
       { id: stepCount++, message: loginResponse.text, trigger: stepCount }, //1
       { id: stepCount++, user: true, trigger: stepCount }, //2
@@ -44,7 +53,7 @@ const App = () => {
         //4
         id: stepCount++,
         user: true,
-        trigger: stepCount,
+        trigger: "lastMessage",
         validator: validator,
       },
 
@@ -54,7 +63,11 @@ const App = () => {
     debugger;
     for (let index = 0; index < 50; index++) {
       steps.push(
-        { id: stepCount++, message: chatResponse.text, trigger: stepCount },
+        {
+          id: stepCount++,
+          component: <View message={chatResponse.text}></View>,
+          trigger: stepCount,
+        },
         {
           id: stepCount++,
           user: true,
@@ -71,14 +84,25 @@ const App = () => {
     debugger;
     agent.Chat.chat(ChatPostData(value, currentResponse.token)).then((resp) => {
       debugger;
-      currentResponse = resp;
+      setCurrentResponse(resp);
+      var newArray = steps.slice();
+      newArray.push(
+        {
+          id: stepCount++,
+          component: <View message={value}></View>,
+          trigger: stepCount,
+        },
+        {
+          id: stepCount++,
+          user: true,
+          trigger: stepCount - 1,
+          validator: validator,
+        }
+      );
+      setSteps([...steps, newArray]);
+      // currentResponse = resp;
     });
     return true;
-  };
-
-  const ChatPostData = (message: string, token: string) => {
-    var chatPostData: IChatResponse = { text: message, token: token };
-    return chatPostData;
   };
 
   return (
