@@ -1,16 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./app/layout/ChatBotApp";
+import ChatBotApp from "./app/layout/ChatBotApp";
 import * as serviceWorker from "./serviceWorker";
-//import { ChatContext } from "./app/stores/ChatContext";
+import { App } from "./app/layout/App";
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <ChatContext.Provider value={{ message, setMessage }}>
-    
-    </ChatContext.Provider> */}
-    <App />
+    {/* <ChatBotApp /> */}
+    <App></App>
   </React.StrictMode>,
   document.getElementById("root")
 );

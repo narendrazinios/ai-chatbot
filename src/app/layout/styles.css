@@ -57,3 +57,14 @@ body {
     cursor: pointer;
     margin: 5px;
 }
+
+
+/* Custom Chat bot styling */
+
+.bot-header {
+    background-color: indigo;
+}
+
+.bot-content {
+    background-color: indigo;
+}

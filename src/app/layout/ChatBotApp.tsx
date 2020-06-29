@@ -12,7 +12,7 @@ const ChatPostData = (message: string, token: string) => {
   return chatPostData;
 };
 
-const App = () => {
+const ChatBotApp = () => {
   //const { message, setMessage } = useContext(ChatContext);
   let [showChat, setShowChat] = useState(false);
   let [steps, setSteps] = useState([{}]);
@@ -155,7 +155,7 @@ const App = () => {
   );
 };
 
-export default App;
+export default ChatBotApp;
 
 // const LoadingSteps: IStep[] = [{ id: 1, message: "Loading...", end: true }];
 
