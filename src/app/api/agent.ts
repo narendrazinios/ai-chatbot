@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { ILoginResponse, IChatResponse } from "../models/ChatModels";
+import { IChatResponse } from "../models/ChatModels";
 
 axios.defaults.baseURL = "https://zechatapp.azurewebsites.net/api";
 
