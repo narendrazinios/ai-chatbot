@@ -6,9 +6,7 @@ import { Content } from "./CustomChatBotComponents/Content";
 export const CustomChatBot = () => {
   return (
     <div>
-      <ChatBotContainer>
-        <Content></Content>
-      </ChatBotContainer>
+      <ChatBotContainer></ChatBotContainer>
     </div>
   );
 };
