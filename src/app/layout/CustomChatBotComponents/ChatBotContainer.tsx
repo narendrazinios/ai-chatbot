@@ -7,6 +7,8 @@ import { IChatContent } from "../../models/CustomChatBotModels";
 import agent from "../../api/agent";
 import { ChatData } from "../../stores/Data";
 import { IChatResponse } from "../../models/ChatModels";
+import { strict } from "assert";
+import { string } from "prop-types";
 
 interface IProps {
   Header?: string;
@@ -19,8 +21,13 @@ const ChatBotContainer: React.FC<IProps> = ({ Header }) => {
   // ];
 
   const [message, setMessage] = useState("");
+  const [messageId, setMessageId] = useState(1);
   const [chatContents, setChatContents] = useState<IChatContent[]>([]);
-  const [activities, setActivities] = useState<IChatContent[]>([]);
+  const [currentResponse, setCurrentResponse] = useState<IChatResponse>({
+    text: "",
+    token: "",
+  });
+
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     data: InputOnChangeData
@@ -28,32 +35,76 @@ const ChatBotContainer: React.FC<IProps> = ({ Header }) => {
     setMessage(data.value);
   };
 
-  const submit = () => {};
+  const submit = async (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent> | any
+  ) => {
+    event.preventDefault();
+    if (message === "") return;
+
+    addMessage(false, message);
+    var chatResponse = await agent.Chat.chat(
+      ChatPostData(message, currentResponse.token)
+    );
+    setCurrentResponse(chatResponse);
+    //setMessage("");
+    debugger;
+    var count = messageId + 1;
+    setMessageId(count);
+    var contents: IChatContent[] = [
+      {
+        id: messageId,
+        isBot: false,
+        message: message,
+      },
+      {
+        id: messageId + 1,
+        isBot: true,
+        message: chatResponse.text,
+      },
+    ];
+    var count = messageId + 1;
+    setMessageId(count);
+    addMultiMessage(contents);
+    setMessage("");
+    //addMessage(true, chatResponse.text);
+  };
+
   const ChatPostData = (message: string, token: string) => {
     var chatPostData: IChatResponse = { text: message, token: token };
     return chatPostData;
   };
 
-  var currentResponse: IChatResponse;
+  const addMessage = (isBot: boolean, message: string) => {
+    var chatContent: IChatContent = {
+      id: messageId,
+      isBot: isBot,
+      message: message,
+    };
+    var count = messageId + 1;
+    setMessageId(count);
+    setChatContents([...chatContents, chatContent]);
+
+    // var newArray = chatContents.slice();
+    // newArray.push({
+    //   id: messageId,
+    //   isBot: isBot,
+    //   message: message,
+    // });
+    // setChatContents([...chatContents, ...newArray]);
+  };
+
+  const addMultiMessage = (contents: IChatContent[]) => {
+    setChatContents([...chatContents, ...contents]);
+  };
 
   useEffect(() => {
-    debugger;
     steps();
   }, []);
 
   const steps = async () => {
-    debugger;
-    var loginResponse = await agent.Chat.login(ChatData.LoginTokenId); //JSON.parse(ChatData.TempLoginData);
-    //var loginResponse = JSON.parse(await DemoSleepData()); //await agent.Chat.login(ChatData.LoginTokenId);
-    var chatResponse = (currentResponse = await agent.Chat.chat(
-      ChatPostData(loginResponse.text, loginResponse.token)
-    ));
-
-    var chatContent: IChatContent = {
-      isBot: true,
-      message: loginResponse.text,
-    };
-    setChatContents([...chatContents, chatContent]);
+    var loginResponse = await agent.Chat.login(ChatData.LoginTokenId);
+    setCurrentResponse(loginResponse);
+    addMessage(true, loginResponse.text);
   };
 
   return (
@@ -74,10 +125,17 @@ const ChatBotContainer: React.FC<IProps> = ({ Header }) => {
       </Grid.Row>
       <Grid.Row verticalAlign="bottom">
         <Grid.Column>
-          <Input name="message" onChange={handleInputChange} type="text" fluid>
+          <Input
+            name="message"
+            value={message}
+            onChange={handleInputChange}
+            //onKeyDown={submit}
+            type="text"
+            fluid
+          >
             <input />
             <Button
-              onClick={() => submit()}
+              onClick={(event) => submit(event)}
               icon={SubmitIcon}
               style={{ background: "transparent" }}
             ></Button>

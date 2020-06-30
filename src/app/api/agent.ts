@@ -18,7 +18,7 @@ const requests = {
 };
 
 const Chat = {
-  login: (agentId: string): Promise<any> =>
+  login: (agentId: string): Promise<IChatResponse> =>
     requests.get(`/Chat/Login?agentId=${agentId}`),
   chat: (chatbody: IChatResponse): Promise<IChatResponse> =>
     requests.post("/Chat", chatbody),

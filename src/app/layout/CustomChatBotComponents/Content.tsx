@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Feed } from "semantic-ui-react";
 import { BotData } from "./BotData";
 import "../../layout/styles.css";
@@ -10,8 +10,8 @@ interface IProps {
 }
 
 export const Content: React.FC<IProps> = ({ chatContents }) => {
-  const botContent = (message: string) => (
-    <Feed.Event>
+  const botContent = (chatContent: IChatContent) => (
+    <Feed.Event key={chatContent.id}>
       <Feed.Label>
         <img src={BotData.botAvatar} />
       </Feed.Label>
@@ -21,17 +21,17 @@ export const Content: React.FC<IProps> = ({ chatContents }) => {
     <Feed.Date>1 Hour Ago</Feed.Date>
   </Feed.Summary> */}
         <Feed.Extra text style={{ color: "white" }}>
-          {message}
+          {chatContent.message}
         </Feed.Extra>
       </Feed.Content>
     </Feed.Event>
   );
 
-  const userContent = (message: string) => (
-    <Feed.Event>
+  const userContent = (chatContent: IChatContent) => (
+    <Feed.Event key={chatContent.id}>
       <Feed.Content className="user-content">
         <Feed.Extra text style={{ color: "white" }}>
-          {message}
+          {chatContent.message}
         </Feed.Extra>
       </Feed.Content>
       <Feed.Label>
@@ -43,9 +43,7 @@ export const Content: React.FC<IProps> = ({ chatContents }) => {
   return (
     <Feed>
       {chatContents.map((content) =>
-        content.isBot
-          ? botContent(content.message)
-          : userContent(content.message)
+        content.isBot ? botContent(content) : userContent(content)
       )}
     </Feed>
   );
