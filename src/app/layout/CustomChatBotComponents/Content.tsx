@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Feed } from "semantic-ui-react";
 import { BotData } from "./BotData";
 import "../../layout/styles.css";

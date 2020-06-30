@@ -7,8 +7,6 @@ import { IChatContent } from "../../models/CustomChatBotModels";
 import agent from "../../api/agent";
 import { ChatData } from "../../stores/Data";
 import { IChatResponse } from "../../models/ChatModels";
-import { strict } from "assert";
-import { string } from "prop-types";
 
 interface IProps {
   Header?: string;
@@ -97,7 +95,7 @@ const ChatBotContainer: React.FC<IProps> = ({ Header }) => {
 
   useEffect(() => {
     steps();
-  }, []);
+  }, [currentResponse]);
 
   const steps = async () => {
     var loginResponse = await agent.Chat.login(ChatData.LoginTokenId);

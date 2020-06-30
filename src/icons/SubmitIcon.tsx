@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 const SubmitIcon: React.FC<{ size?: number }> = ({ size }) => (
   <svg

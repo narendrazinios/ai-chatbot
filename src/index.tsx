@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import ChatBotApp from "./app/layout/ChatBotApp";
 import * as serviceWorker from "./serviceWorker";
 import { App } from "./app/layout/App";
 
