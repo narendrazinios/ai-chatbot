@@ -125,7 +125,7 @@ const ChatBotContainer: React.FC<IProps> = ({ Header }) => {
             name="message"
             value={message}
             onChange={handleInputChange}
-            //onKeyDown={submit}
+            onKeyDown={(event: any) => event.key == "Enter" && submit(event)}
             type="text"
             fluid
           >
