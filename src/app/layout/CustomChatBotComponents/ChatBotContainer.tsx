@@ -49,20 +49,18 @@ const ChatBotContainer: React.FC<IProps> = ({ Header }) => {
     //setMessage("");
     debugger;
     var count = messageId + 1;
-    setMessageId(count);
     var contents: IChatContent[] = [
       {
-        id: messageId,
+        id: count,
         isBot: false,
         message: message,
       },
       {
-        id: messageId + 1,
+        id: count = count + 1,
         isBot: true,
         message: chatResponse.text,
       },
     ];
-    var count = messageId + 1;
     setMessageId(count);
     addMultiMessage(contents);
     setMessage("");
