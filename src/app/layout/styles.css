@@ -61,10 +61,47 @@ body {
 
 /* Custom Chat bot styling */
 
+.main-content-holder {
+    border-radius: 10px 15px;
+}
+
 .bot-header {
     background-color: indigo;
+    color: white;
 }
 
 .bot-content {
-    background-color: indigo;
+    background-color: blueviolet;
+    font-weight: bold;
+    border-radius: 10px 15px;
+    padding: 5px;
+    /* overflow: hidden;
+    border-radius: 15px 50px;
+    padding: 10px;
+    width: auto;
+    height: auto; */
+}
+
+.user-content {
+    background-color: blueviolet;
+    font-weight: bold;
+    text-align: right;
+    padding: 5px;
+    border-radius: 10px 15px 16px 5px;
+    /*
+    width: 200px;
+    height: 150px; */
+    /* align-items: flex-end; */
+}
+
+.align-right {
+    text-align: right;
+}
+
+.bot-text {
+    color: white;
+}
+
+.user-text {
+    color: white;
 }
