@@ -95,7 +95,7 @@ const ChatBotContainer: React.FC<IProps> = ({ Header }) => {
 
   useEffect(() => {
     steps();
-  }, [currentResponse]);
+  }, []);
 
   const steps = async () => {
     var loginResponse = await agent.Chat.login(ChatData.LoginTokenId);
